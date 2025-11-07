@@ -47,49 +47,49 @@ const tutorialSlides = [
     {
         slideNum: 1,
         text: "Use your mouse to drag the ultrasound probe over the circular zones on the body to see different ultrasound images.",
-        imageSrc: "Echo_images/tutorial/tutorial1.png",
+        imageSrc: "Echo_Images/tutorial/tutorial1.png",
         altText: "Tutorial Step 1: Dragging the probe."
     },
     {
         slideNum: 2,
         text: "The probe automatically rotates and adjusts its tail position based on the position of the probe on the body",
-        imageSrc: "Echo_images/tutorial/tutorial2.png",
+        imageSrc: "Echo_Images/tutorial/tutorial2.png",
         altText: "Tutorial Step 2: Probe rotation and tail adjustment."
     },
     {
         slideNum: 3,
         text: "When placing the probe on the intercostal space, you can click the \"Switch View\" button to switch between parasternal long-axis and short-axis views.",
-        imageSrc: "Echo_images/tutorial/tutorial3.png",
+        imageSrc: "Echo_Images/tutorial/tutorial3.png",
         altText: "Tutorial Step 3: Switching between long-axis and short-axis views."
     },
     {
         slideNum: 4,
         text: "Answer questions by clicking on the correct anatomical structures in the ultrasound image.",
-        imageSrc: "Echo_images/tutorial/tutorial4.png",
+        imageSrc: "Echo_Images/tutorial/tutorial4.png",
         altText: "Tutorial Step 4: Answering questions by clicking structures."
     },
     {
         slideNum: 5,
         text: "After selecting an answer, you will receive immediate feedback indicating whether your choice was correct or incorrect.",
-        imageSrc: "Echo_images/tutorial/tutorial5.png",
+        imageSrc: "Echo_Images/tutorial/tutorial5.png",
         altText: "Tutorial Step 5: Immediate feedback on answers."
     },
     {
         slideNum: 6,
         text: "For the Simulation Mode, you can click on the circles to check what anatomical structure they represent.",
-        imageSrc: "Echo_images/tutorial/tutorial6.png",
+        imageSrc: "Echo_Images/tutorial/tutorial6.png",
         altText: "Tutorial Step 6: Checking anatomical structures."
     },
     {
         slideNum: 7,
         text: "You can exit the Simulation anytime by using the 'Exit To Menu' button.",
-        imageSrc: "Echo_images/tutorial/tutorial7.png",
+        imageSrc: "Echo_Images/tutorial/tutorial7.png",
         altText: "Tutorial Step 7: Exiting the Simulation."
     },
     {
         slideNum: 8,
         text: "You can review these instructions anytime by clicking the 'Instructions' button.",
-        imageSrc: "Echo_images/tutorial/tutorial8.png",
+        imageSrc: "Echo_Images/tutorial/tutorial8.png",
         altText: "Tutorial Step 8: Reviewing instructions."
     }
 ];
