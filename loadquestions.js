@@ -32,9 +32,12 @@
  * - rotationDisplay, tailDisplay, viewDisplay: UI elements showing probe orientation.
  * - partDisplay: Element showing the anatomical name in Sandbox mode.
  * - currentQuestionIndex, score, sweepDeg, tailPosition, currentViewIndex, lastCellPos: Critical state trackers for quiz progress and probe orientation.
- * - isSimulatorActive, isSandBoxActive, isFeedbackActive: State variables controlling the script's behavior.
- * - activeCircleElement: Tracks the currently highlighted circle element for visual feedback.
- * 
+ * - activeCircleElement: Tracks the currently highlighted circle element for visual feedback. 
+ * - isSimulatorActive: (boolean) True when the probe is interactable in the quiz or sandbox.
+ * - isFeedbackActive: (boolean) True when the answer feedback modal is displayed.
+ * - isSandBoxActive: (boolean) True when the application is in the free-play sandbox mode.
+ * - gameStarted: (boolean) True once the quiz process has been initiated.
+ *
  * EXTERNAL DEPENDENCIES (Variables/Functions):
  * - probe, imagePanel, probeImgEl, partDisplay, correctAnswerImage, containerOverlay, etc. (Numerous UI/probe elements).
  * - quizData, cellOrientationMap, imageSetsByAngleAndTail, circlePositionsByKey (All data models).
@@ -138,7 +141,7 @@ function updateImagePreview() {
   }
 
   // Show “switch view” UI if there are multiples
-  if (views.length > 1 && isSimulatorActive || isSandBoxActive) {
+  if (views.length > 1 && (isSimulatorActive || isSandBoxActive)) {
     toggleButton.classList.remove('hidden');
     toggleButton.textContent = `Switch View (${currentViewIndex+1}/${views.length})`;
 

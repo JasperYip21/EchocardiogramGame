@@ -112,6 +112,38 @@ p {
   transform: translateY(-2px);
 }
 
+/* Loading Spinner */
+.loading-content {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  width: 800px;
+  min-height: 500px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 8px solid var(--border);
+  border-top: 8px solid var(--primary);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Full Screen Page */
 .prompt {
   position: fixed;

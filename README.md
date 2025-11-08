@@ -8,7 +8,7 @@ This interactive web-based simulator is designed to test your knowledge of **sta
 
 ## Getting Started
 
-1.  **Launch the Game:** The simulation starts with a fullscreen prompt/title card.
+1.  **Launch the Game:** The simulation starts with a loading screen, followed with fullscreen prompt/title card.
 2.  **Start Quiz:** Click **Start Simulation** to begin the quiz flow.
 3.  **Start Sandbox:** Click **Sandbox Mode** for free practice without scoring.
 4.  **Instructions:** Click the **Instructions** button at any time to review the interactive tutorial slideshow.
@@ -17,7 +17,7 @@ This interactive web-based simulator is designed to test your knowledge of **sta
 
 ## Gameplay Instructions
 
-The main screen is divided into the patient's chest outline (left) and the ultrasound image display (right).
+The main screen is divided into an explanation area (left), the patient's chest outline (middle) and the ultrasound image display (right).
 
 ### Controls & Interaction
 

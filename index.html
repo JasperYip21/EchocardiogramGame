@@ -11,7 +11,15 @@
 
 </head>
 <body>
-  <div id="fullscreenPrompt" class="prompt">
+  <div id="loadingScreen" class="screen">
+    <div class ="loading-content">
+      <h1>Echocardiogram Simulator</h1>
+      <p>Loading assets, please wait...</p>
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <div id="fullscreenPrompt" class="prompt hidden">
     <div class="prompt-content">
       <h1>Echocardiogram Simulator</h1>
       <p>For the best experience, please use fullscreen mode.</p>
@@ -23,7 +31,7 @@
 
   <div id="promptOverlay" class="prompt-overlay hidden"></div>
 
-  <div id="titleScreen" class="screen">
+  <div id="titleScreen" class="screen hidden">
     <div class="title-card">
       <h1>Echocardiogram</h1>
       <p>Practice identifying cardiac structures using ultrasound imaging. Drag the probe to different positions on the body, and select the correct anatomical structures to test your knowledge.</p>
@@ -110,42 +118,51 @@
       <div class="machine-header">
           <span>Echocardiogram</span>
       </div> 
+
       <div class="question-area" id="questionArea">
         <div class="question-number">Question <span id="currentQuestion">1</span> of 5</div>
         <div id="questionBox"></div>
       </div>
+
       <div id="imageDisplay" class="ultrasound-display">
         <div class="image-placeholder">
           <i>!</i>
           <p>Drag and position the probe to view ultrasound images</p>
         </div>
       </div>
+
       <div class="controls">
         <div class="position-indicators">
           <div class="view-container hidden" id="partContainer" aria-live="polite">
             <div class="view-label">ANATOMICAL VIEW</div>
             <div id="partDisplay" class="view-value">—</div>
           </div>
+
           <div class="view-container" id="viewContainer" aria-live="polite">
             <div class="view-label">VIEW</div>
             <div id="viewDisplay" class="view-value">—</div>
           </div>
+
           <div class="indicator-group">
             <div class="indicator-label">ROTATION</div>
             <div id="rotationDisplay" class="indicator-value">0°</div>
           </div>
+
           <div class="indicator-group">
             <div class="indicator-label">TAIL POSITION</div>
             <div id="tailDisplay" class="indicator-value tail-indicator"></div>
             </div>
           </div>
         </div>
-        <button id="viewToggleButton" class="hidden">Switch View</button>        
+
+        <button id="viewToggleButton" class="hidden">Switch View</button>   
+
         <div class="container-controls">
           <button id="exitButton" class="control-btn exit-btn">Exit to Main Menu</button>
         </div>
       </div>
     </div>
+    
     <div id="feedbackBox" class="feedback hidden">
       <p id="feedbackText"></p>
       <img id="correctAnswerImage" class="hidden" alt="Correct Answer" />
@@ -166,6 +183,7 @@
       <button id="restartButton" class="btn">Restart Simulation</button>
     </div>
   </div>
+
   <script src="imagedata.js"></script>
   <script src="main.js"></script>
   <script src="loadquestions.js"></script>

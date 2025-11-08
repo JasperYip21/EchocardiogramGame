@@ -3,16 +3,18 @@
  * GAME FLOW & UI STATE MANAGEMENT SCRIPT 
  * -----------------------------------------------------------------------------
  * This script is the central controller for the application's overall state and 
- * screen transitions (Title, Simulator, Sandbox, End Screen, Prompts).
+ * screen transitions (Loading Screen, Title, Simulator, Sandbox, End Screen, Prompts).
  * It manages the flow between different application modes, handles initialization 
  * (UI resets, image preloading), and provides essential utility functions.
  * 
  * FUNCTIONS:
  * - initUI(): Initializes the simulator view, resets display values (rotation, view), and preloads all images.
  * - degreesToClock(angle): Converts a degree value to a standard clock face string (e.g., "3 o'clock").
+ * - preloadImages(): Preloads all ultrasound and general images, returning a Promise that resolves when all are loaded.
  * 
  * EVENT LISTENERS:
  * - fullscreenBtn (click): Enters fullscreen mode.
+ * - document (DOMContentLoaded): Manages the loading screen and preloads assets before showing the title screen.
  * - document (fullscreenchange): Handles logic when exiting fullscreen (e.g., via Esc).
  * - startButton (click): Begins the main quiz simulation.
  * - sandBoxButton (click): Enters the free-play sandbox mode.
@@ -22,13 +24,7 @@
  * - cancelExitButton (click): Hides the exit confirmation prompt.
  * - restartButton (click): Resets state and begins the quiz again from the start.
  * 
- * GLOBAL VARIABLES (State):
- * - isSimulatorActive: (boolean) True when the probe is interactable in the quiz or sandbox.
- * - isFeedbackActive: (boolean) True when the answer feedback modal is displayed.
- * - isSandBoxActive: (boolean) True when the application is in the free-play sandbox mode.
- * - gameStarted: (boolean) True once the quiz process has been initiated.
- * 
- * GLOBAL VARIABLES (Elements):
+ * GLOBAL VARIABLES (State & Elements):
  * - Screens/Prompts: fullscreenPrompt, promptOverlay, titleScreen, endScreen, 
  * questionTitleScreen, exitPrompt.
  * - Core UI: container, imagePanel, finalScore, currentQuestion.
@@ -42,6 +38,7 @@
  * - imageSetsByAngleAndTail (Data structure for image paths)
 **/
 
+const loadingScreen = document.getElementById('loadingScreen');
 const fullscreenPrompt = document.getElementById('fullscreenPrompt');
 const promptOverlay = document.getElementById('promptOverlay');
 const titleScreen = document.getElementById('titleScreen');
@@ -64,6 +61,16 @@ const slideshowContainer = document.getElementById('slideshowContainer');
 const exitPrompt = document.getElementById('exitPrompt');
 const confirmExitButton = document.getElementById('confirmExitButton');
 const cancelExitButton = document.getElementById('cancelExitButton');
+const generalAssetSources = [
+  './images/probe_h.png', './images/probe_v.png', './images/body2.png', './images/probe_tail_down.png',
+  './images/probe_tail_up.png', './images/probe_explanation_2.png',
+  './Echo_Images/answer/Q1_ans.png', './Echo_Images/answer/Q2_ans.png', './Echo_Images/answer/Q3_ans.png',
+  './Echo_Images/answer/Q4_ans.png', './Echo_Images/answer/Q5_ans.png',
+  './Echo_Images/tutorial/tutorial1.png', './Echo_Images/tutorial/tutorial2.png', './Echo_Images/tutorial/tutorial3.png',
+  './Echo_Images/tutorial/tutorial4.png', './Echo_Images/tutorial/tutorial5.png', './Echo_Images/tutorial/tutorial6.png',
+  './Echo_Images/tutorial/tutorial7.png', './Echo_Images/tutorial/tutorial8.png'
+]
+
 
 function initUI() {
   loadQuestion();
@@ -72,11 +79,6 @@ function initUI() {
   rotationDisplay.textContent = '3 o\'clock';
   tailDisplay.textContent = 'Tail Down';
   viewDisplay.textContent = '-';
-
-  // Preload all images
-  Object.values(imageSetsByAngleAndTail).flat().forEach(src => {
-    new Image().src = src;
-  });
 }
 
 // Convert degrees to clock face representation
@@ -90,6 +92,72 @@ function degreesToClock(angle) {
   ];
   return labels[hourIndex];
 }
+
+// Preloads all ultrasound images and returns a Promise that resolves when all are loaded.
+function preloadImages() {
+  let allImageSources = [];
+
+  // Quiz Images
+  if (typeof imageSetsByAngleAndTail !== 'undefined') {
+    allImageSources = allImageSources.concat(
+      Object.values(imageSetsByAngleAndTail).flat()
+    );
+  }
+
+  // General Images
+  if (typeof generalAssetSources !== 'undefined') {
+    allImageSources = allImageSources.concat(generalAssetSources);
+  }
+  
+  if (allImageSources.length === 0) {
+    console.warn('No images found to preload. Proceeding immediately.');
+    return Promise.resolve();
+  }
+
+  // Create an array of Promises, one for each image load operation.
+  const loadPromises = allImageSources.map(src => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      
+      // Resolve the promise when the image successfully loads or errors
+      img.onload = () => resolve(src); 
+      img.onerror = () => {
+          console.warn(`Failed to load image: ${src}`);
+          resolve(src); // Resolve so a single error doesn't stop the launch
+      };
+      
+      img.src = src;
+    });
+  });
+
+  return Promise.all(loadPromises);
+}
+
+// Loading Screen, on DOM content loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Promise that resolves only after 3 seconds.
+  const minimumTimePromise = new Promise(resolve => {
+    setTimeout(resolve, 3000);
+  });
+
+  // Preloading images.
+  const imageLoadPromise = preloadImages();
+
+  // Use Promise.all() to wait for BOTH the 5-second timer AND image loading to finish.
+  Promise.all([imageLoadPromise, minimumTimePromise])
+    .then(() => {
+      console.log('All assets loaded and minimum time elapsed. Launching game.');
+
+      if (loadingScreen) { loadingScreen.classList.add('hidden'); }
+
+      if (fullscreenPrompt) { fullscreenPrompt.classList.remove('hidden'); }
+
+      if (titleScreen) { titleScreen.classList.remove('hidden'); }
+    })
+    .catch(error => {
+      console.error('An unexpected error occurred during preloading:', error);
+  });
+});
 
 // Button to enter fullscreen mode
 fullscreenBtn.addEventListener('click', () => {
