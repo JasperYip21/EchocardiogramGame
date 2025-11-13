@@ -105,7 +105,7 @@
           [],
           [     // Subcostal 4C
               { x: 50, y: 30, answer: "A", text: "Liver" }, // Liver
-              { x: 30, y: 65, answer: "B", text: "Right Atrium" }, // Right Atrium
+              { x: 30, y: 65, answer: "B", text: "Left Atrium" }, // Left Atrium
               { x: 53, y: 58, answer: "C", text: "Left Ventricle" } // Left Ventricle
           ],
           [     // A4C
