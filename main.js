@@ -72,9 +72,9 @@ const generalAssetSources = [
   './images/probe_tail_up.png', './images/probe_explanation_2.png',
   './Echo_Images/answer/Q1_ans.png', './Echo_Images/answer/Q2_ans.png', './Echo_Images/answer/Q3_ans.png',
   './Echo_Images/answer/Q4_ans.png', './Echo_Images/answer/Q5_ans.png',
-  './Echo_Images/tutorial/tutorial1.png', './Echo_Images/tutorial/tutorial2.png', './Echo_Images/tutorial/tutorial3.png',
-  './Echo_Images/tutorial/tutorial4.png', './Echo_Images/tutorial/tutorial5.png', './Echo_Images/tutorial/tutorial6.png',
-  './Echo_Images/tutorial/tutorial7.png', './Echo_Images/tutorial/tutorial8.png',
+  './Echo_Images/tutorial/tutorial1.PNG', './Echo_Images/tutorial/tutorial2.PNG', './Echo_Images/tutorial/tutorial3.PNG',
+  './Echo_Images/tutorial/tutorial4.PNG', './Echo_Images/tutorial/tutorial5.PNG', './Echo_Images/tutorial/tutorial6.PNG',
+  './Echo_Images/tutorial/tutorial7.PNG', './Echo_Images/tutorial/tutorial8.PNG',
   './Echo_Images/90_up_1.png', './Echo_Images/30_down_2.png', './Echo_Images/30_up_2.png',
   './Echo_Images/90_down_3.png', './Echo_Images/90_down_4.png', './Echo_Images/300_up_2.png'
 ];
