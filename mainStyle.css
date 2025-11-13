@@ -130,14 +130,19 @@ p {
   align-items: center;
 }
 
-.spinner {
-  border: 8px solid var(--border);
-  border-top: 8px solid var(--primary);
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-  margin: 20px auto 0 auto;
+.progress-bar-container {
+  width: 300px;
+  height: 20px;
+  background-color: var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
 }
 
 @keyframes spin {
@@ -277,7 +282,7 @@ p {
 }
 
 .cell[data-pos="1"] {
-  top: 20%;
+  top: 15%;
   left: 43%;
 }
 

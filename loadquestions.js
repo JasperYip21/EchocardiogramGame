@@ -31,7 +31,7 @@
  * - cells: NodeList of all valid drop zones on the body model.
  * - rotationDisplay, tailDisplay, viewDisplay: UI elements showing probe orientation.
  * - partDisplay: Element showing the anatomical name in Sandbox mode.
- * - currentQuestionIndex, score, sweepDeg, tailPosition, currentViewIndex, lastCellPos: Critical state trackers for quiz progress and probe orientation.
+ * - pos, currentQuestionIndex, score, sweepDeg, tailPosition, currentViewIndex, lastCellPos, position: Critical state trackers for quiz progress and probe orientation.
  * - activeCircleElement: Tracks the currently highlighted circle element for visual feedback. 
  * - isSimulatorActive: (boolean) True when the probe is interactable in the quiz or sandbox.
  * - isFeedbackActive: (boolean) True when the answer feedback modal is displayed.
@@ -61,6 +61,7 @@ let sweepDeg = 0;
 let tailPosition = 'up';
 let lastCellPos = null;
 let immediate = false;
+let position = 0;
 let currentViewIndex = 0;
 let lastControl1 = null;
 let lastControl2 = null;
@@ -179,6 +180,21 @@ function updateImagePreview() {
       refreshRope();
   }
 
+  if (pos === 1) {
+      probeImgEl.src = './images/probe_tail_up.png';
+      rotationDisplay.textContent = '12 o\'clock';
+      position = 1;
+
+      refreshRope();
+  }
+  else {
+      position = 0;
+
+      refreshRope();
+  }
+
+  console.log(pos)
+
   // Inject the images + circles
   const key      = `${angle}_${tailDir}`;
   const imageSet = imageSetsByAngleAndTail[key]?.[pos-1];
@@ -235,6 +251,12 @@ function updateImagePreview() {
             showAnswerButton.classList.remove('hidden');
             nextQuestionButton.classList.remove('hidden');
             correctAnswerImage.classList.add('hidden');
+          }
+
+          if (currentQuestionIndex === quizData.length - 1) {
+            nextQuestionButton.textContent = 'End Quiz';
+          } else {
+            nextQuestionButton.textContent = 'Next Question'; // Ensure text is reset for earlier questions
           }
           
           // Show feedback modal

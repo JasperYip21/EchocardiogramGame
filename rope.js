@@ -44,7 +44,7 @@ function updateRope() {
   const mBox = document.querySelector('.machine-area').getBoundingClientRect();
   const mScreen = { x: mBox.left + mBox.width/2, y: mBox.top + 20 };
 
-  const tailScreen = getTailAnchor(probe, sweepDeg, tailPosition, currentViewIndex);
+  const tailScreen = getTailAnchor(probe, sweepDeg, tailPosition, currentViewIndex, position);
 
   // control points
   let c1x, c1y, c2x, c2y;
@@ -84,7 +84,7 @@ function refreshRope() {
 }
 
 // Calculate the tail tip coordinates 
-function getTailAnchor(probeEl, angleDeg, tailDir, currentViewIndex) {
+function getTailAnchor(probeEl, angleDeg, tailDir, currentViewIndex, position) {
   const { x: cx, y: cy} = getProbeCenter(probeEl);
 
   // radius from center to edge (half width)
@@ -97,13 +97,19 @@ function getTailAnchor(probeEl, angleDeg, tailDir, currentViewIndex) {
   // if "down", put it on the right side.
   const offsetAngle = tailDir === 'down' ? theta : theta + Math.PI;
 
+  console.log('pos:', position, theta);
   if (currentViewIndex === 2) {
     return { x: cx, y: cy };
   }
-  else {
+  if (position === 1) {
     return {
-    x: cx + r * Math.cos(offsetAngle),
-    y: cy + r * Math.sin(offsetAngle)
+      x: cx + r * Math.cos(270 * Math.PI / 180),
+      y: cy + r * Math.sin(270 * Math.PI / 180)
+    };
+  } else {
+    return {
+      x: cx + r * Math.cos(offsetAngle),
+      y: cy + r * Math.sin(offsetAngle)
     };
   }
 }

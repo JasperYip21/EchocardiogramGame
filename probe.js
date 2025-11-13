@@ -27,7 +27,7 @@
  * - isDragging: (boolean) Flag indicating if the probe is currently being dragged.
  * - offsetX, offsetY: Numerical offsets used to prevent the probe from jumping on mousedown.
  * - lastProbeCoords: Stores the last known coordinates of the probe (used externally for rope drawing/collision detection).
- * - sweepDeg, tailPosition: Critical variables defining the probe's current visual orientation.
+ * - sweepDeg, tailPosition, position: Critical variables defining the probe's current visual orientation.
  * 
  * EXTERNAL DEPENDENCIES (Functions):
  * - container, rotationDisplay, viewDisplay, tailDisplay
@@ -89,6 +89,7 @@ function applyProbeTransform() {
 function resetProbe() {
   sweepDeg = 90;
   tailPosition = 'down';
+  position = 0;
   rotationDisplay.textContent = "3 o'clock";
   viewDisplay.textContent = '-';
   tailDisplay.textContent = 'Tail Down';

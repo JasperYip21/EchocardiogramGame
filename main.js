@@ -11,6 +11,8 @@
  * - initUI(): Initializes the simulator view, resets display values (rotation, view), and preloads all images.
  * - degreesToClock(angle): Converts a degree value to a standard clock face string (e.g., "3 o'clock").
  * - preloadImages(): Preloads all ultrasound and general images, returning a Promise that resolves when all are loaded.
+ * - updateProgressBar(percentage): Updates the loading screen progress bar to the specified percentage.
+ * - hideProgressBar(): Hides the progress bar after reaching 100% and resets it for future use.
  * 
  * EVENT LISTENERS:
  * - fullscreenBtn (click): Enters fullscreen mode.
@@ -25,6 +27,8 @@
  * - restartButton (click): Resets state and begins the quiz again from the start.
  * 
  * GLOBAL VARIABLES (State & Elements):
+ * - Counter: assetLoadedCount.
+ * - Loading Screen: loadingScreen, progressBarContainer, progressBarFill.
  * - Screens/Prompts: fullscreenPrompt, promptOverlay, titleScreen, endScreen, 
  * questionTitleScreen, exitPrompt.
  * - Core UI: container, imagePanel, finalScore, currentQuestion.
@@ -33,12 +37,14 @@
  * - Slideshow/Tutorial: prevSlideButton, nextSlideButton, slideIndicator, slideshowContainer.
  * 
  * EXTERNAL DEPENDENCIES (Variables/Functions):
- * - score, currentQuestionIndex, sweepDeg, tailPosition, currentViewIndex, lastCellPos
+ * - score, currentQuestionIndex, sweepDeg, tailPosition, position, currentViewIndex, lastCellPos
  * - loadQuestion(), refreshRope(), updateImagePreview(), containerOverlay
  * - imageSetsByAngleAndTail (Data structure for image paths)
 **/
 
 const loadingScreen = document.getElementById('loadingScreen');
+const progressBarContainer = document.getElementById('progressBarContainer');
+const progressBarFill = document.getElementById('progressBarFill');
 const fullscreenPrompt = document.getElementById('fullscreenPrompt');
 const promptOverlay = document.getElementById('promptOverlay');
 const titleScreen = document.getElementById('titleScreen');
@@ -68,13 +74,17 @@ const generalAssetSources = [
   './Echo_Images/answer/Q4_ans.png', './Echo_Images/answer/Q5_ans.png',
   './Echo_Images/tutorial/tutorial1.png', './Echo_Images/tutorial/tutorial2.png', './Echo_Images/tutorial/tutorial3.png',
   './Echo_Images/tutorial/tutorial4.png', './Echo_Images/tutorial/tutorial5.png', './Echo_Images/tutorial/tutorial6.png',
-  './Echo_Images/tutorial/tutorial7.png', './Echo_Images/tutorial/tutorial8.png'
-]
+  './Echo_Images/tutorial/tutorial7.png', './Echo_Images/tutorial/tutorial8.png',
+  './Echo_Images/90_up_1.png', './Echo_Images/30_down_2.png', './Echo_Images/30_up_2.png',
+  './Echo_Images/90_down_3.png', './Echo_Images/90_down_4.png', './Echo_Images/300_up_2.png'
+];
 
+let assetLoadedCount = 0;
 
 function initUI() {
   loadQuestion();
   refreshRope();
+  position = 0;
   sweepDeg = 90;
   rotationDisplay.textContent = '3 o\'clock';
   tailDisplay.textContent = 'Tail Down';
@@ -97,14 +107,7 @@ function degreesToClock(angle) {
 function preloadImages() {
   let allImageSources = [];
 
-  // Quiz Images
-  if (typeof imageSetsByAngleAndTail !== 'undefined') {
-    allImageSources = allImageSources.concat(
-      Object.values(imageSetsByAngleAndTail).flat()
-    );
-  }
-
-  // General Images
+  // General and Quiz Images
   if (typeof generalAssetSources !== 'undefined') {
     allImageSources = allImageSources.concat(generalAssetSources);
   }
@@ -114,13 +117,29 @@ function preloadImages() {
     return Promise.resolve();
   }
 
+  const imagesToLoadCount = allImageSources.length;
+  
+  if (imagesToLoadCount === 0) {
+    console.warn('No images to load. Proceeding immediately.');
+    return Promise.resolve();
+  }
+
   // Create an array of Promises, one for each image load operation.
   const loadPromises = allImageSources.map(src => {
     return new Promise((resolve, reject) => {
       const img = new Image();
       
+      const onComplete = () => {
+        assetLoadedCount++;
+        const progress = Math.round((assetLoadedCount / imagesToLoadCount) * 100);
+        setTimeout(() => {
+          updateProgressBar(progress);
+          resolve(src);
+          console.log(`Loaded image: ${assetLoadedCount}/${imagesToLoadCount}. Progress: (${progress}%)`);
+        }, 10); // Slight delay for smoother progress bar update
+      };
       // Resolve the promise when the image successfully loads or errors
-      img.onload = () => resolve(src); 
+      img.onload = onComplete; 
       img.onerror = () => {
           console.warn(`Failed to load image: ${src}`);
           resolve(src); // Resolve so a single error doesn't stop the launch
@@ -133,11 +152,29 @@ function preloadImages() {
   return Promise.all(loadPromises);
 }
 
+// Update the progress bar width based on percentage (0-100)
+function updateProgressBar(percentage) {
+  const validatedPercentage = Math.max(0, Math.min(100, percentage));
+  progressBarFill.style.width = `${validatedPercentage}%`;
+}
+
+// Hide the progress bar after reaching 100%
+function hideProgressBar() {
+    updateProgressBar(100);
+    setTimeout(() => {
+        progressBarContainer.classList.add('hidden');
+        // Reset for next use
+        progressBarFill.style.width = '0%'; 
+    }, 500); // Wait for the 100% animation to finish
+}
+
 // Loading Screen, on DOM content loaded
 document.addEventListener('DOMContentLoaded', () => {
-  // Promise that resolves only after 3 seconds.
+
+  console.log('DOM fully loaded and parsed. Starting asset preloading.');
+  // Promise that resolves only after 1 seconds.
   const minimumTimePromise = new Promise(resolve => {
-    setTimeout(resolve, 3000);
+    setTimeout(resolve, 1000);
   });
 
   // Preloading images.
@@ -249,6 +286,7 @@ restartButton.addEventListener('click', () => {
   currentQuestionIndex = 0;
   score = 0;
   sweepDeg = 90;
+  position = 0;
   tailPosition = 'down';
   currentViewIndex = 0;
   lastCellPos = null;

@@ -33,18 +33,18 @@
 
 // Image Data for different angles and tail positions
   const imageSetsByAngleAndTail = {
-      "30_up": ["Echo_Images/30_up_1.png", "Echo_Images/30_up_2.png", "Echo_Images/30_up_3.png", "Echo_Images/30_up_4.png"],       // @ 2 = PSAX MV level
+      "30_up": ["Echo_Images/30_up_1.png", "Echo_Images/30_up_2.png", "Echo_Images/30_up_3.png", "Echo_Images/30_up_4.png"],       // @ 2 = PSAX
       "30_down": ["Echo_Images/30_down_1.png", "Echo_Images/30_down_2.png", "Echo_Images/30_down_3.png", "Echo_Images/30_down_4.png"],   // @ 2 = PSAX AV level
-      "0_up": ["Echo_Images/0_up_1.png", "Echo_Images/0_up_2.png", "Echo_Images/0_up_3.png", "Echo_Images/0_up_4.png"],     // @ 1 = Suprasternal notch
+      "90_up": ["Echo_Images/90_up_1.png", "Echo_Images/90_up_2.png", "Echo_Images/90_up_3.png", "Echo_Images/90_up_4.png"],     // @ 1 = Suprasternal notch
       "90_down": ["Echo_Images/90_down_1.png", "Echo_Images/90_down_2.png", "Echo_Images/90_down_3.png", "Echo_Images/90_down_4.png"],  // @ 3 = S4C, @ 4 = A4C
       "300_up": ["Echo_Images/300_up_1.png", "Echo_Images/300_up_2.png", "Echo_Images/300_up_3.png", "Echo_Images/300_up_4.png"]      // @ 2 = PLAX
   };
   
   // Cell orientation map for angles and tail direction
   const cellOrientationMap = {
-      1: [{ angle: 0, tail: 'up', view: 'Suprasternal Notch'}],    // Suprasternal notch
+      1: [{ angle: 90, tail: 'up', view: 'Suprasternal Notch'}],    // Suprasternal notch
       2: [
-          { angle: 30, tail: 'up', view: 'Parasternal Short-axis MV'},      // PSAX MV level
+          { angle: 30, tail: 'up', view: 'Parasternal Short-axis'},      // PSAX
           { angle: 30, tail: 'down', view: 'Parasternal Short-axis AV'},    // PSAX AV level
           { angle: 300, tail: 'up', view: 'Parasternal Long-axis'},     // PLAX
       ],
@@ -56,7 +56,7 @@
   const circlePositionsByKey = {
       "30_up": [
           [],
-          [   // PSAX MV level
+          [   // PSAX
               { x: 45, y: 54, answer: "A", text: "Left Ventricle" }   // Left Ventricle
           ],
           [],
@@ -67,7 +67,7 @@
           [],
           [    // PSAX AV level
               { x: 45, y: 56, answer: "B", text: "Aortic Valve" },  // Aortic Valve
-              { x: 45, y: 37, answer: "C", text: "RVOT" },  // RVOT
+              { x: 45, y: 37, answer: "C", text: "Right Ventricular Outflow Tract" },  // Right Ventricular Outflow Tract
               { x: 45, y: 70, answer: "D", text: "Left Atrium" }, // Left Atrium
               { x: 30, y: 60, answer: "E", text: "Right Atrium" },  // Right Atrium
           ],
@@ -82,18 +82,18 @@
               { x: 53, y: 30, answer: "G", text: "Right Ventricle" },  // Right Ventricle
               { x: 65, y: 60, answer: "H", text: "Left Atrium" }, // Left Atrium
               { x: 53, y: 60, answer: "I", text: "Mitral Valve" },  // Mitral Valve
-              { x: 60, y: 49, answer: "K", text: "Ascending Aorta" }   // Ascending Aorta
+              { x: 60, y: 49, answer: "K", text: "Aortic Root" }   // Aortic Root
           ],
           [],
           []
       ],
   
-      "0_up": [
+      "90_up": [
           [   // Suprasternal notch
               { x: 45, y: 28, answer: "A", text: "Brachiocephalic Trunk" },  // Brachiocephalic Trunk
               { x: 50, y: 35, answer: "B", text: "Left Common Carotid Artery" },  // Left Common Carotid Artery
               { x: 35, y: 60, answer: "C", text: "Thoracic Descending Artery" }, // Thoracic Descending Artery
-              { x: 33, y: 50, answer: "D", text: "Main Pulmonary Artery" },  // Main Pulmonary Artery
+              { x: 28, y: 45, answer: "D", text: "Right Pulmonary Artery" },  // Right Pulmonary Artery
           ],
           [],
           [],
@@ -122,7 +122,7 @@
   // Quiz data for questions
   const quizData = [
       {
-          question: "In parasternal long axis view (PLAX), where is the right ventricle?",
+          question: "Obtain the parasternal long axis view (PLAX) and identify the right ventricle on the image.",
         //   question: "-",
           key: "300_up",
           correctPosition: 2,
@@ -130,28 +130,28 @@
           correctImage: "Echo_Images/answer/Q1_ans.png"
       },
       {
-          question: "In parasternal short axis view (PSAX), where is the aortic valve?",
+          question: "Obtain the parasternal short axis view (PSAX) and identify the aortic valve.",
           key: "30_down",
           correctPosition: 2,
           correctAnswer: "B",
           correctImage: "Echo_Images/answer/Q2_ans.png"
       },
       {
-          question: "In suprasternal notch view, where is the main pulmonary artery?",
-          key: "0_up",
+          question: "Obtain the suprasternal notch view and identify the right pulmonary artery.",
+          key: "90_up",
           correctPosition: 1,
           correctAnswer: "D",
           correctImage: "Echo_Images/answer/Q3_ans.png"
       },
       {
-          question: "In apical 4-chamber view (A4C), where is the left atrium?",
+          question: "Obtain the apical 4-chamber view (A4C) and identify the left atrium.",
           key: "90_down",
           correctPosition: 4,
           correctAnswer: "F",
           correctImage: "Echo_Images/answer/Q4_ans.png"
       },
       {
-          question: "In subcostal 4-chamber view (S4C), where is the left ventricle?",
+          question: "Obtain the subcostal 4-chamber view (S4C) and identify the left ventricle.",
           key: "90_down",
           correctPosition: 3,
           correctAnswer: "C",
